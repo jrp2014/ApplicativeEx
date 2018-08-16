@@ -4,6 +4,10 @@
 {-
 An exercise in Traversable / Applicative functors from Conor McBride
 https://stackoverflow.com/questions/10239630/where-to-find-programming-exercises-for-applicative-functors/10242673
+
+
+The following has some reference material: http://strictlypositive.org/Idiom.pdf
+
 -}
 
 module ApplicativeEx where
@@ -51,6 +55,8 @@ newtype I x = I
 
 
 --- (2) ---
+
+-- TODO:: use he standrd Composable type instead
 
 newtype (:.) f g x = Comp
   { comp :: f (g x)
@@ -123,6 +129,7 @@ whitespace = oneOf " \t\n"
 digit :: Parse Char
 digit = oneOf ['0' .. '9']
 
+
 --- (4) ---
 
 square :: Parse Int
@@ -136,6 +143,7 @@ parseSquare = const square
 
 board :: Parse (Board Int)
 board = traverse parseSquare emptyBoard
+
 
 --- (5) ---
 
@@ -175,6 +183,8 @@ instance Monoid All where
   mempty = All True
   mappend = (<>)
 
+-- avoid name conflicts with imports
+
 anyany :: Traversable f => (a -> Bool) -> f a -> Bool
 anyany p = unAny . crush (Any . p)
 
@@ -187,19 +197,7 @@ anyelem x = anyany (== x)
 
 --- (6) ---
 
-{-
-duplicates :: (Traversable f, Eq a) => f a -> (([a], [a]), f a)
-duplicates =
-  mapAccumR
-    (\(seen, dups) item ->
-       ( ( item : seen
-         , if anyelem item seen
-             then item : dups
-             else dups)
-       , item))
-    mempty
--}
--- TODO :: optimize to not include already seen items to seen
+-- TODO :: optimize to not add already seen items to seen
 duplicates :: (Traversable f, Eq a) => f a -> [a]
 duplicates =
   snd
