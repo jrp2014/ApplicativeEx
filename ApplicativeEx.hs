@@ -5,9 +5,7 @@
 An exercise in Traversable / Applicative functors from Conor McBride
 https://stackoverflow.com/questions/10239630/where-to-find-programming-exercises-for-applicative-functors/10242673
 
-
 The following has some reference material: http://strictlypositive.org/Idiom.pdf
-
 -}
 
 module ApplicativeEx where
